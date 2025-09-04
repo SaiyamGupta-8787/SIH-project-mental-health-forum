@@ -29,9 +29,9 @@ Built for **Smart India Hackathon 2025**
 
 - **Backend** : Python (Flask,Django, APIs)
                                 
-- **Database** : MySQL / SQLite / PostgreSQL
+- **Database** : MySQL / SQLite + SQLAlchemy / PostgreSQL
                                           
-- **Frontend** : HTML5, CSS3, JavaScript
+- **Frontend** : HTML5, CSS3, JavaScript, React.js / Jinja2
                                           
 - **Deployment** : PythonAnywhere / Render / Vercel
                       
