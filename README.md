@@ -1,3 +1,18 @@
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square&logo=mit&logoColor=white)](https://opensource.org/licenses/MIT)&nbsp;
+[![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)&nbsp;
+[![Flask](https://img.shields.io/badge/Flask-000000?style=flat-square&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)&nbsp;
+[![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-FF0000?style=flat-square&logo=sqlalchemy&logoColor=white)](https://www.sqlalchemy.org/)
+
+[![MySQL](https://img.shields.io/badge/MySQL-00758F?style=flat-square&logo=mysql&logoColor=white)](https://www.mysql.com/)&nbsp;
+[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)](https://www.sqlite.org/)&nbsp;
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)&nbsp;
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)&nbsp;
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)&nbsp;
+![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=flat-square&logo=bootstrap&logoColor=white)
+
+[![VS Code](https://img.shields.io/badge/Editor-VS%20Code-blue?style=flat-square&logo=visual-studio-code&logoColor=white)](https://code.visualstudio.com/)
+---
+
 # 🧠 Student Mental Health Forum (SIH 2025)
 A web based platform where students can share experiences, seek support, and access mental health resources.
 Built for **Smart India Hackathon 2025**
@@ -23,9 +38,9 @@ Built for **Smart India Hackathon 2025**
                               
 - README.md  → Project overview (This file)
 
-tree form
+**Tree Structure**
 ```
-Mental-Health-Forum/
+SIH-project-mental-health-forum/
 ├── Frontend/         # UI files (HTML, CSS, JS)
 ├── Backend/          # Flask backend (Python, APIs, Database)
 ├── Docs/             # Documentation, reports, PPTs
@@ -38,11 +53,11 @@ Mental-Health-Forum/
 ## 🛠️ Tech Stack (Skills)
 - **Version Control** : Git CLI and Github
 
-- **Backend** : Python (Flask,Django, APIs)
+- **Backend** : Python (Flask, Django, APIs)
                                 
 - **Database** : MySQL / SQLite + SQLAlchemy / PostgreSQL
                                           
-- **Frontend** : HTML5, CSS3, JavaScript, React.js / Jinja2
+- **Frontend** : HTML5, CSS3, JavaScript, React.js or Jinja2
                                           
 - **Deployment** : PythonAnywhere / Render / Vercel
                       
@@ -50,19 +65,19 @@ Mental-Health-Forum/
 ## 👥 Team Members
 | Name | Role | Focus |
 |------|------|-------|
-| Jasmine Kaur | Backend | Database , APIs , Servers , Scaling , Authentication |
-| Saiyam Gupta | Backend | Database , APIs , Servers , Scaling , Authentication |
-| Siddhi Mishra | Frontend | UI design , HTML/CSS webpages , Responsive design |
-| Pari | Frontend | UI design , HTML/CSS webpages , Responsive design |
-| Aadi Jain | Debugging | Front end debugging , Deployment |
-| Naman Jaria| Database | Database , Deployment |
+| Jasmine Kaur | Back-end | Database , APIs , Servers , Scaling , Authentication |
+| Saiyam Gupta | Back-end | Database , APIs , Servers , Scaling , Authentication |
+| Siddhi Mishra | Front-end | UI design , HTML/CSS webpages , Responsive design |
+| Pari | Front-end | UI design , HTML/CSS webpages , Responsive design |
+| Aadi Jain | Debugging | Front-end debugging , Deployment |
+| Naman Jaria | Database | Database , Deployment |
 
 ---
 
 ## 📌 Git/Github Workflow
 
 ### 1) Main Branches
-- **main** : The Main source file of the project, the final working version of the project, keep it clean, and **Do Not Touch Unless Completely Sure and Final**
+- **main** : The Main source file of the project, the final working version of the project, keep it clean, and **Do not modify unless changes are finalized and confirmed.**
 
 - **dev** : Development Branch, we will work here
 ### 2) Feature Branches
@@ -90,11 +105,11 @@ Now clone the project files into your directory
 git clone https://github.com/SaiyamGupta-8787/SIH-project-mental-health-forum
 ```
 **2) Feature branch**
-when you start a new work, amke new branch from **dev**
+when you start a new work, make new branch from **dev**
 ```bash
 git checkout dev
-git pull origin dev updates #get latest
-git checkout -b <feature>/< short/sub-feature name >
+git pull origin dev #get latest updates
+git checkout -b <feature>/<short/sub-feature name>
 ```
 **3) Working on project**
 
@@ -112,10 +127,10 @@ in your commit messages
 
 **4) Pushing your branch**
 
-push your changes on github
+Push your changes to Github
 
 ```bash
-git push origin <feature>/<feautre name>
+git push origin <feature>/<feature name>
 ```
 **4) Creating Pull Request**
 - Repo -> Pull request -> new pull request
@@ -127,18 +142,18 @@ git push origin <feature>/<feautre name>
 #### 🔴 Always discuss with the team member/ role partner before merging
 
 - Merge PR -> it goes in dev
-- After all feature are teseted and finalised, and after discussing with all team members/role partners, team leader will merge dev into main
+- After all feature are tested and finalized, and after discussing with all team members/role partners, team leader will merge dev into main
 
 ## 📑 Guidelines
 ### For our Team
 - Always work on a feature branch, never directly on main
 - Use simple, clear and conscise commit messages
 - Update README and Docs/ when adding new feature/work
-- Always talk to all team members / role partner before merging your feature branch in main
+- Always talk to all team members / role partner before merging your feature branch into main
 
 ---
 
 ## 📜 License
 
 **This project is licensed under MIT License.**            
-This means that anyone can use, modify and share this project or any contributions in it as long as credit is given
+This means anyone can use, modify, and share this project and its contributions, as long as credit is given.
