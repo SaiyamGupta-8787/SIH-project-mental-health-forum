@@ -55,7 +55,7 @@ Mental-Health-Forum/
 | Siddhi Mishra | Frontend | UI design , HTML/CSS webpages , Responsive design |
 | Pari | Frontend | UI design , HTML/CSS webpages , Responsive design |
 | Aadi Jain | Debugging | Front end debugging , Deployment |
-| Naman Jaria| Undecided | Undecided |
+| Naman Jaria| Database | Deployment |
 
 ---
 
