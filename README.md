@@ -22,7 +22,18 @@ Built for **Smart India Hackathon 2025**
 - .gitignore → Files to ignore (like cache, .env)
                               
 - README.md  → Project overview (This file)
-                        
+
+tree form
+```
+Mental-Health-Forum/
+├── Frontend/         # UI files (HTML, CSS, JS)
+├── Backend/          # Flask backend (Python, APIs, Database)
+├── Docs/             # Documentation, reports, PPTs
+├── .gitignore        # Ignore unnecessary files
+├── README.md         # Project overview
+└── LICENSE           # License details
+```
+
 ---
 ## 🛠️ Tech Stack (Skills)
 - **Version Control** : Git CLI and Github
