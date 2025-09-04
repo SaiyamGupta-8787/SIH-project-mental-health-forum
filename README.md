@@ -54,7 +54,7 @@ Mental-Health-Forum/
 | Saiyam Gupta | Backend | Database , APIs , Servers , Scaling , Authentication |
 | Siddhi Mishra | Frontend | UI design , HTML/CSS webpages , Responsive design |
 | Pari | Frontend | UI design , HTML/CSS webpages , Responsive design |
-| Aadi Jain | Undecided | Undecided |
+| Aadi Jain | Debugging | Front end debugging , Deployment |
 | Naman Jaria| Undecided | Undecided |
 
 ---
