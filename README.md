@@ -76,82 +76,94 @@ SIH-project-mental-health-forum/
 
 ---
 
-## 📌 Git/Github Workflow
+## 🚀 Git Workflow Guide  
 
-### 1) Main Branches
-- **main** : The Main source file of the project, the final working version of the project, keep it clean, and **Do not modify unless changes are finalized and confirmed.**
-
-- **dev** : Development Branch, we will work here
-### 2) Feature Branches
-
-- **feature** : What feature or task **you** are working on
-
-### 3)Workflow
-- **feature branch** → **dev** → **main**
+This guide will explain how our team will use Git.  
+Follow these steps to avoid merging conflicts and keep our repo clean.  
 
 ---
 
-## 💻 Running The Project Locally
-**1) Cloning The Repo**
+## 🔹 Branches  
+- **main** → stable release (always clean)  
+- **dev** → integration branch (all features merge here)  
+- **feature branches** → per teammate (one feature = one branch)  
 
-only first time
-### In your Git bash 
-First, go to your local folder/directory, the one where you will store the project files, using the command :
+Example branches:  
+- `backend-auth`, `backend-api`  
+- `frontend-ui`, `frontend-design`  
+- `db-schema`  
+- `deploy-debug`  
+
+---
+
+## 🔹 First-time setup (once per teammate)  
 ```bash
-cd ~/<Folder-name>
+# Go in the folder you will keep project files, and Clone the repo
+cd <Address of folder>
+git clone https://github.com/<username>/<repo>.git
+cd <repo>
 
-```
-Now clone the project files into your directory
+# Get all branches from GitHub
+git fetch origin
 
-``` bash
-git clone https://github.com/SaiyamGupta-8787/SIH-project-mental-health-forum
+# Switch to dev (team base branch)
+git checkout dev
 ```
-**2) Feature branch**
-when you start a new work, make new branch from **dev**
+
+---
+
+### 🔹 Daily workflow
+
+Before coding (sync with team):
 ```bash
 git checkout dev
-git pull origin dev #get latest updates
-git checkout -b <feature>/<short/sub-feature name>
+git pull origin dev
+git checkout <your-branch>
+git merge dev   # bring in the latest work
 ```
-**3) Working on project**
-
-Work/add features, after doing a small work, commit your changes
-```bash
-git add -A
-git commit -m"Commit Message"
-```
-#### note : use short forms like 
-- feat : for features,
-- fix : for fixing bugs,
-- docs : for any change in documents, etc.
-
-in your commit messages
-
-**4) Pushing your branch**
-
-Push your changes to Github
-
-```bash
-git push origin <feature>/<feature name>
-```
-**4) Creating Pull Request**
-- Repo -> Pull request -> new pull request
-- base branch : dev, compare branch : feature/featurename
-- write description of what you did
-- create the pr
 ---
-**5) Merging**
-#### 🔴 Always discuss with the team member/ role partner before merging
 
-- Merge PR -> it goes in dev
-- After all feature are tested and finalized, and after discussing with all team members/role partners, team leader will merge dev into main
+### 🔹 While coding:
+```bash
+# Stage and commit your changes
+git add .
+git commit -m "feat: add login API"
 
-## 📑 Guidelines
-### For our Team
-- Always work on a feature branch, never directly on main
-- Use simple, clear and conscise commit messages
-- Update README and Docs/ when adding new feature/work
-- Always talk to all team members / role partner before merging your feature branch into main
+# Push your branch to GitHub
+git push origin <your-branch>
+```
+---
+
+When your feature is ready:
+
+- Open a Pull Request (PR) from <your-branch> → dev on GitHub.
+
+- Another teammate reviews and merges.
+
+---
+
+### 🔹 Deployment workflow
+
+When dev is stable & tested:
+```bash
+git checkout main
+git pull origin main
+git merge dev
+git push origin main
+
+```
+
+### 🔹 Guidelines
+
+✅ Never code directly on main or dev.  
+✅ Pull dev every morning before coding.    
+✅ One feature = one branch.    
+✅ Write clear commit messages: 
+
+feat: → new feature
+
+fix: → bug fix  
+etc
 
 ---
 
