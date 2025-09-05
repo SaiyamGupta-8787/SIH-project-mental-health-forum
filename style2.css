@@ -1,0 +1,148 @@
+/* ---------- General Reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ---------- Body ---------- */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #74ebd5, #ACB6E5); /* soft modern gradient */
+}
+
+/* ---------- Form Container ---------- */
+.form-container {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 45px 50px;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  width: 380px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+/* ---------- Heading ---------- */
+.form-container h2 {
+  font-size: 2rem;
+  color: #2C3E50; /* dark blue-gray for professionalism */
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+/* ---------- Input Fields ---------- */
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+  width: 100%;
+  padding: 14px 18px;
+  margin: 12px 0 22px 0;
+  border: 1.5px solid #BDC3C7; /* subtle gray border */
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-container input:focus {
+  border-color: #3498DB; /* professional blue focus */
+  box-shadow: 0 0 12px rgba(52,152,219,0.3);
+  outline: none;
+  background-color: #fdfdfd;
+}
+
+/* ---------- Buttons ---------- */
+.form-container button {
+  width: 100%;
+  padding: 14px 0;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-bottom: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Login button - blue gradient */
+.form-container .login-btn {
+  background: linear-gradient(135deg, #2980B9, #3498DB);
+  box-shadow: 0 6px 15px rgba(52,152,219,0.3);
+}
+
+.form-container .login-btn:hover {
+  background: linear-gradient(135deg, #3498DB, #2980B9);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(52,152,219,0.4);
+}
+
+/* Registration button - orange gradient */
+.form-container .register-btn {
+  background: linear-gradient(135deg, #F39C12, #d2721e); /* warm orange */
+  box-shadow: 0 6px 15px rgba(243, 156, 18, 0.3);
+}
+
+.form-container .register-btn:hover {
+  background: linear-gradient(135deg, #d2721e, #F39C12);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(243, 156, 18, 0.4);
+}
+
+/* ---------- Small Text / Links ---------- */
+.form-container p {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #7F8C8D; /* medium gray for links */
+}
+
+.form-container p a {
+  color: #3498DB;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.form-container p a:hover {
+  text-decoration: underline;
+  color: #2980B9;
+}
+
+/* ---------- Placeholder Styling ---------- */
+::placeholder {
+  color: #95A5A6; /* soft gray */
+  opacity: 1;
+}
+
+/* ---------- Mobile Responsiveness ---------- */
+@media screen and (max-width: 480px) {
+  .form-container {
+    width: 90%;
+    padding: 35px 30px;
+  }
+
+  .form-container h2 {
+    font-size: 1.7rem;
+  }
+
+  .form-container input[type="text"],
+  .form-container input[type="email"],
+  .form-container input[type="password"] {
+    padding: 12px 15px;
+  }
+
+  .form-container button {
+    padding: 12px 0;
+    font-size: 0.95rem;
+  }
+}
