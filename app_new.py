@@ -7,7 +7,7 @@ from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
-# MySql configuration
+
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
@@ -99,9 +99,6 @@ def logout():
     flash("You have been logged out successfully.")
     return redirect(url_for("login"))
 
-### ✅ YOUR ADDED ROUTES BELOW ✅
-
-# Route to submit a new mood entry
 @app.route('/add_mood', methods=['POST'])
 def add_mood():
     if 'user_id' not in session:
@@ -120,8 +117,6 @@ def add_mood():
     cursor.close()
     
     return jsonify({'status': 'success', 'message': 'Mood added successfully'})
-
-# Route to get all moods for the logged-in user
 @app.route('/get_moods', methods=['GET'])
 def get_moods():
     if 'user_id' not in session:
@@ -135,7 +130,7 @@ def get_moods():
     
     return jsonify({'status': 'success', 'moods': moods})
 
-# Route to submit a new peer post
+
 @app.route('/add_peer_post', methods=['POST'])
 def add_peer_post():
     if 'user_id' not in session:
@@ -155,7 +150,7 @@ def add_peer_post():
     
     return jsonify({'status': 'success', 'message': 'Peer post added successfully'})
 
-# Route to get all peer posts
+
 @app.route('/get_peer_posts', methods=['GET'])
 def get_peer_posts():
     cursor = mysql.connection.cursor()
@@ -170,7 +165,6 @@ def get_peer_posts():
     
     return jsonify({'status': 'success', 'posts': posts})
 
-### ✅ END OF YOUR ADDED ROUTES ✅
-
 if __name__ == '__main__':
     app.run(debug=True)
+
