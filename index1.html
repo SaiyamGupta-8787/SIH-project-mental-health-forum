@@ -1248,27 +1248,30 @@
         </div>
     </footer>
 
-    <!-- <script>
+    <script>
+        // Mobile Navbar
+        const hamburger = document.querySelector(".hamburger");
+        const navLinks = document.querySelector(".nav-links");
+
+        hamburger.addEventListener("click", () =>
+            navLinks.classList.toggle("show")
+        );
+
+        document.querySelectorAll(".nav-links a").forEach(link =>
+            link.addEventListener("click", () => navLinks.classList.remove("show"))
+        );
+
         // Sidebar toggle
         function toggleMenu(header) {
             const submenu = header.nextElementSibling;
-            const arrow = header.querySelector('.arrow');
-
-            submenu.classList.toggle('open');
-            arrow.classList.toggle('down');
+            header.querySelector(".arrow").classList.toggle("down");
+            submenu.style.maxHeight = submenu.style.maxHeight ? null : submenu.scrollHeight + "px";
         }
+    </script>
 
-        // Mobile navbar hamburger
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('show');
-        });
-    </script> -->
-
-    <script src="script.js"></script>
+<!--     <script src="script.js"></script> -->
 
 </body>
+
 
 </html>
