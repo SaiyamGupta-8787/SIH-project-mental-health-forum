@@ -21,18 +21,38 @@ Built for **Smart India Hackathon 2025**
 ---
 ## 🕹️ Features (MVP)
 ▶ Anonymous discussion forum for students
-                                                    
+                                  
 ▶ Peer-to-Peer support with moderation
                         
 ▶ Resource Hub (Articles, Audio, Video)
-                                            
+                                
 ▶ Admin Dashboard for reports and trends
+
+▶Guided Self-Help Page – “How are you feeling today?” → Quick tips (video, article, helpline, motivation).
+
+▶Mood Tracker + Diary – Daily check-ins with simple graphs + journaling.
+
+▶Peer Support Forum – Anonymous, moderated student discussions (like Quora).
+
+▶SOS & NGO Connect – One-tap helpline, local NGO links, hidden emergency button.
+
+▶Gamified Wellness – Daily challenges, earn points, grow a digital pet and become healthy according to the mood.
+
+▶Personalized Resources – Stories, tips, and positive quotes based on Indian student life so that student can relate.
+
+▶Screen Break Reminders – Gentle nudges to reduce burnout.
+
+▶Workshops & Counsellor Booking – Online/offline sessions + secure booking.
+
+▶Anonymous Polls – To show “you’re not alone” in facing issues.
                           
 ---
 ## 📂 Project Structure
 - Frontend/ → UI (HTML, CSS, JS)
                                       
-- Backend/  → Flask backend (Python + DB)
+- Backend/  → Flask backend (apps, configs, etc.)
+
+- Database/ → Scripts for MySQL (schema.sql,seed.sql)
                                                     
 - Docs/     → Documentation, PPT, and other details
                                                   
@@ -66,8 +86,8 @@ SIH-project-mental-health-forum/
 │
 ├── database/              # MySQL scripts
 │   ├── schema.sql
-│   ├── seed.sql
-│   └── mental_health_backup.sql
+│   └── seed.sql
+│    
 │
 ├── requirements.txt       # Python dependencies
 ├── .gitignore
