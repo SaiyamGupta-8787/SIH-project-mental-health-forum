@@ -21,38 +21,18 @@ Built for **Smart India Hackathon 2025**
 ---
 ## 🕹️ Features (MVP)
 ▶ Anonymous discussion forum for students
-                                  
+                                                    
 ▶ Peer-to-Peer support with moderation
                         
 ▶ Resource Hub (Articles, Audio, Video)
-                                
+                                            
 ▶ Admin Dashboard for reports and trends
-
-▶Guided Self-Help Page – “How are you feeling today?” → Quick tips (video, article, helpline, motivation).
-
-▶Mood Tracker + Diary – Daily check-ins with simple graphs + journaling.
-
-▶Peer Support Forum – Anonymous, moderated student discussions (like Quora).
-
-▶SOS & NGO Connect – One-tap helpline, local NGO links, hidden emergency button.
-
-▶Gamified Wellness – Daily challenges, earn points, grow a digital pet and become healthy according to the mood.
-
-▶Personalized Resources – Stories, tips, and positive quotes based on Indian student life so that student can relate.
-
-▶Screen Break Reminders – Gentle nudges to reduce burnout.
-
-▶Workshops & Counsellor Booking – Online/offline sessions + secure booking.
-
-▶Anonymous Polls – To show “you’re not alone” in facing issues.
                           
 ---
 ## 📂 Project Structure
 - Frontend/ → UI (HTML, CSS, JS)
                                       
-- Backend/  → Flask backend (apps, configs, etc.)
-
-- Database/ → Scripts for MySQL (schema.sql,seed.sql)
+- Backend/  → Flask backend (Python + DB)
                                                     
 - Docs/     → Documentation, PPT, and other details
                                                   
@@ -63,37 +43,14 @@ Built for **Smart India Hackathon 2025**
 **Tree Structure**
 ```
 SIH-project-mental-health-forum/
-│
-├── app.py                 # Main Flask app
-├── config.py              # DB configurations secret keys
-├── models.py              # DB models/quierie 
-│
-├── templates/             # HTML (frontend)
-│   ├── index.html
-│   ├── index1.html
-│   ├── login.html
-│   ├── registration.html
-│   └── register.html
-│
-├── static/                # Static assets
-│   ├── css/
-│   │   ├── style.css
-│   │   └── style2.css
-│   ├── js/
-│   │   └── script.js
-│   └── img/
-│       └── logo.jpeg
-│
-├── database/              # MySQL scripts
-│   ├── schema.sql
-│   └── seed.sql
-│    
-│
-├── requirements.txt       # Python dependencies
-├── .gitignore
-├── LICENSE
-└── README.md
+├── Frontend/         # UI files (HTML, CSS, JS)
+├── Backend/          # Flask backend (Python, APIs, Database)
+├── Docs/             # Documentation, reports, PPTs
+├── .gitignore        # Ignore unnecessary files
+├── README.md         # Project overview
+└── LICENSE           # License details
 ```
+
 ---
 ## 🛠️ Tech Stack (Skills)
 - **Version Control** : Git CLI and Github
