@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MANTHAN - Mental Health Platform</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Hind&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        } */
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            padding: 15px 40px;
+            height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 45px;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.1);
+        }
+
+        .site-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            position: relative;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #1ABC9C, #16A085);
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #28B463, #1D8348);
+        }
+
+        .login-btn:hover,
+        .register-btn:hover {
+            opacity: .9;
+        }
+
+        .language-dropdown {
+            padding: 6px 10px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        /* HAMBURGER (mobile) */
+        .hamburger {
+            display: none;
+            font-size: 1.6rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* SIDE NAV */
+        .sidenav {
+            width: 250px;
+            background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+            padding-top: 20px;
+            height: 100%;
+            flex-shrink: 0;
+            position: sticky;
+            top: 70px;
+            overflow-y: auto;
+            transition: transform .3s ease;
+        }
+
+        .sidenav h2 {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .sidenav a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: .3s;
+        }
+
+        .sidenav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidenav .section-header {
+            padding: 10px 20px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            transition: background 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .submenu.open {
+            max-height: 500px;
+        }
+
+        /* Arrow style */
+        .arrow {
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .arrow.down {
+            transform: rotate(90deg);
+        }
+
+        .sidenav .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .3s ease;
+        }
+
+        .sidenav .submenu a {
+            padding-left: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Dropdown fix */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(88, 214, 141, 0.95);
+            border-radius: 18px;
+            min-width: 180px;
+            list-style: none;
+            padding: 10px 0;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 8px 16px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .dropdown-menu li a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        /* MAIN CONTENT */
+        .content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* Push main content to the right of sidenav */
+        main {
+            flex: 1;
+            margin-left: 250px;
+            /* equal to sidenav width */
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h1 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            text-align: center;
+            color: #555;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+            min-height: 100vh;
+        }
+
+        /* Ensure content centers */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            /* centers horizontally */
+            padding: 0 20px;
+        }
+
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #5DADE2;
+            border: 2px solid #5DADE2;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(93, 173, 226, 0.3);
+        }
+
+        main {
+            background: rgba(255, 255, 255, 0.95);
+            margin: 2rem 0;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            min-height: calc(100vh - 70px - 60px);
+            /* 70px = header, 60px = footer */
+            margin-left: 280px;
+            /* keep space for side navbar */
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+
+        .search-bar input:focus {
+            box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.3);
+        }
+
+        .search-bar button {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 5fr 1fr;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 1rem;
+            border-left: 4px solid #5DADE2;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+        }
+
+        .health-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(93, 173, 226, 0.3);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .post-snippet {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Sidebar properly aligned */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(93, 173, 226, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-section:hover {
+            box-shadow: 0 4px 15px rgba(93, 173, 226, 0.1);
+        }
+
+        .sidebar-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .sidebar-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(93, 173, 226, 0.1);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .featured-experts {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .expert-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .expert-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 15px rgba(93, 173, 226, 0.1);
+        }
+
+        .expert-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .expert-info h4 {
+            margin-bottom: 0.2rem;
+            color: #333;
+        }
+
+        .expert-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .health-tips {
+            background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .health-tips::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .health-tips h3 {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 1rem;
+        }
+
+        .tip-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .tip-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .trending-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .topic-tag {
+            background: linear-gradient(135deg, #5DADE2, #58D68D);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .topic-tag:hover {
+            background: linear-gradient(135deg, #58D68D, #82E0AA);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 4px 10px rgba(93, 173, 226, 0.3);
+        }
+
+
+
+
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .health-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-content>* {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Main container (right next to sidebar) */
+        main {
+            flex: 1;
+            margin-left: 5px;
+            margin-right: 20px;
+            /* same width as sidebar */
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            min-height: calc(100vh - 70px);
+            /* full height minus navbar */
+            overflow: visible;
+            /* let content expand */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Inner content inside main */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 2rem;
+            width: 100%;
+            /* full width inside main */
+        }
+
+        /* Logo container */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        /* Logo image bigger without touching navbar */
+        .logo-img {
+            height: 60px;
+            /* increased size */
+            width: auto;
+            margin-top: -10px;
+            /* pull it up inside navbar */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 50px;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+            border-radius: 0px;
+            cursor: pointer;
+            transition: 0.3 ease;
+        }
+
+        /* Site name remains same */
+        .site-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .site-name:hover {
+            transform: scale(1.01);
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+            /*text-decoration: underline;*/
+            cursor: pointer;
+        }
+
+        /* Underline effect using ::after pseudo-element */
+        .site-name::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            /* space below text */
+            width: 0%;
+            height: 3px;
+            /* thickness of underline */
+            background-color: #ffffff;
+            /* bright, noticeable */
+            border-radius: 2px;
+            transition: width 0.4s ease;
+        }
+
+        .site-name:hover::after {
+            width: 100%;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        /* Main Links */
+        .nav-links li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            padding: 12px 22px;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+
+        .sidebar>* {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Pulse effect for stats */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .stat-number {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #f0f0f0;
+            padding: 40px 20px 20px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .footer-section h3 {
+            color: #9BC53D;
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #f0f0f0;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-section a:hover {
+            text-decoration: underline;
+            color: #A8E6CF;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        /* LAYOUT FIX */
+        .layout {
+            display: flex;
+            flex: 1;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:992px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidenav {
+                width: 100%;
+                height: auto;
+                position: relative;
+                top: 0;
+            }
+
+            .sidenav h2 {
+                margin: 10px 0;
+            }
+
+            .submenu {
+                max-height: 500px;
+            }
+
+            /* auto expand on small */
+        }
+
+        @media(max-width:768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: #58D68D;
+                position: absolute;
+                top: 70px;
+                right: 0;
+                width: 200px;
+                border-radius: 0 0 0 10px;
+                padding: 10px 0;
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+
+            .dropdown-menu {
+                position: static;
+                background: rgba(0, 0, 0, 0.1);
+                border-radius: 0;
+                padding-left: 20px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="logo.jpg" alt="logo" class="logo-img">
+            <span class="site-name">MANTHAN</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li class="dropdown">
+                <a href="#">Guided Support ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Stress Relief</a></li>
+                    <li><a href="#">Anxiety Help</a></li>
+                    <li><a href="#">Motivation Tips</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Forum ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Exam Stress</a></li>
+                    <li><a href="#">Relationships</a></li>
+                    <li><a href="#">Sleep Issues</a></li>
+                </ul>
+            </li>
+            <li><a href="login.html" class="login-btn">Login</a></li>
+            <li><a href="registration.html" class="register-btn">Register</a></li>
+            <li><select class="language-dropdown">
+                    <option>English</option>
+                    <option class="hindi-text">हिन्दी</option>
+                </select></li>
+        </ul>
+
+        <div class="hamburger"><i class="fas fa-bars"></i></div>
+    </nav>
+
+    <!-- LAYOUT -->
+    <div class="layout" style="display:flex; flex:1;">
+        <!-- SIDENAV -->
+        <div class="sidenav">
+            <h2>✨ MANTHAN</h2>
+
+            <div class="section-header" onclick="toggleMenu(this)">👤 Profile <span class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">View Profile</a>
+                <a href="#">Edit Profile</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">📂 Forum <span class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">Exam Stress</a>
+                <a href="#">Relationships</a>
+                <a href="#">Sleep Issues</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">🧘 Wellness Tools <span class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">Meditation</a>
+                <a href="#">Stress Relief</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">📚 Resources <span class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">Articles</a>
+                <a href="#">Videos</a>
+                <a href="#">Guides</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">⚙️ Settings <span class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">Preferences</a>
+                <a href="#">Privacy</a>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <main>
+            <div class="hero">
+                <div class="container">
+                    <h1>Your Health Journey Starts Here</h1>
+                    <p>Connect with a supportive community, get expert advice, and find answers to your health questions
+                        in a safe, moderated environment.</p>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search health topics, symptoms, or ask a question...">
+                        <button type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="content-grid">
+                    <div class="main-content">
+                        <h2 class="section-title">Health Categories</h2>
+                        <div class="health-categories">
+                            <a href="#" class="category-card">
+                                <div class="category-icon">❤️</div>
+                                <h3>Heart Health</h3>
+                                <p>2,340 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">🧠</div>
+                                <h3>Mental Health</h3>
+                                <p>4,567 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">💪</div>
+                                <h3>Fitness & Exercise</h3>
+                                <p>3,890 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">🥗</div>
+                                <h3>Nutrition</h3>
+                                <p>2,156 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">🤱</div>
+                                <h3>Women's Health</h3>
+                                <p>1,789 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">👨‍⚕️</div>
+                                <h3>General Medicine</h3>
+                                <p>5,234 posts</p>
+                            </a>
+                        </div>
+
+                        <div class="health-tips">
+                            <h3>💡 Daily Health Tips</h3>
+                            <div class="tip-item">
+                                <strong>Hydration Reminder:</strong> Aim for 8 glasses of water daily to maintain
+                                optimal health and energy levels.
+                            </div>
+                            <div class="tip-item">
+                                <strong>Sleep Quality:</strong> Maintain a consistent sleep schedule of 7-9 hours for
+                                better mental and physical health.
+                            </div>
+                            <div class="tip-item">
+                                <strong>Movement Matters:</strong> Take a 10-minute walk after meals to improve
+                                digestion and blood sugar levels.
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <h3>Community Stats</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">45K+</div>
+                                <div>Active Members</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">125K+</div>
+                                <div>Forum Posts</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">850+</div>
+                                <div>Expert Contributors</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div>Community Support</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>Featured Health Experts</h3>
+                        <div class="featured-experts">
+                            <div class="expert-card">
+                                <div class="expert-avatar">DH</div>
+                                <div class="expert-info">
+                                    <h4>Dr. Gorav Gupta</h4>
+                                    <p>Cardiologist, 15+ years experience</p>
+                                </div>
+                            </div>
+                            <div class="expert-card">
+                                <div class="expert-avatar">MP</div>
+                                <div class="expert-info">
+                                    <h4>Dr.Ajit Singhk</h4>
+                                    <p>Mental Health Specialist</p>
+                                </div>
+                            </div>
+                            <div class="expert-card">
+                                <div class="expert-avatar">LJ</div>
+                                <div class="expert-info">
+                                    <h4>Priyanka Narang</h4>
+                                    <p>Registered Dietitian</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>Trending Topics</h3>
+                        <div class="trending-topics">
+                            <span class="topic-tag">#StressManagement</span>
+                            <span class="topic-tag">#HeartHealthy</span>
+                            <span class="topic-tag">#HealthyEating</span>
+                            <span class="topic-tag">#FitnessMotivation</span>
+                            <span class="topic-tag">#MentalWellness</span>
+                            <span class="topic-tag">#SleepBetter</span>
+                            <span class="topic-tag">#PreventiveCare</span>
+                            <span class="topic-tag">#HealthyHabits</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3>🚨 Health Disclaimer</h3>
+                        <p style="font-size: 0.9rem; color: #666; line-height: 1.4;">
+                            Information shared in this forum is for educational purposes only and should not replace
+                            professional medical advice. Always consult with qualified healthcare providers for medical
+                            concerns.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>About</h3>
+                <p>Manthan Health Forum provides digital mental health & psychological support for students in higher
+                    education.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="#">Home</a><br>
+                <a href="#">Resources</a><br>
+                <a href="#">Counsellor Booking</a><br>
+                <a href="#">Peer Forum</a>
+            </div>
+            <div class="footer-section">
+                <h3>Language</h3>
+                <a href="#">हिन्दी</a><br>
+                <a href="#">English</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: support@manthan.edu</p>
+                <p>Helpline: +91 12345 67890</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Manthan Health Forum. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Navbar
+        const hamburger = document.querySelector(".hamburger");
+        const navLinks = document.querySelector(".nav-links");
+
+        hamburger.addEventListener("click", () =>
+            navLinks.classList.toggle("show")
+        );
+
+        document.querySelectorAll(".nav-links a").forEach(link =>
+            link.addEventListener("click", () => navLinks.classList.remove("show"))
+        );
+
+        // Sidebar toggle
+        function toggleMenu(header) {
+            const submenu = header.nextElementSibling;
+            header.querySelector(".arrow").classList.toggle("down");
+            submenu.style.maxHeight = submenu.style.maxHeight ? null : submenu.scrollHeight + "px";
+        }
+    </script>
+
+<!--     <script src="script.js"></script> -->
+
+</body>
+
+
+</html>
