@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<div class="container">
+  <h2>Register</h2>
+  <form action="/register" method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        <label for="name">{{ form.name.label.text }}:</label>
+        {{form.name(id="name",class="form-control")}}<br><br>
+
+        {% if form.name.errors %}
+            <ul>
+                {% for error in form.name.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+
+    <div class="form-group">
+        <label for="email">{{ form.email.label.text }}:</label>
+        {{form.email(id="email",class="form-control")}}<br><br>
+
+        {% if form.email.errors %}
+            <ul class="text-danger  ">
+                {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+
+    <div class="form-group">
+        <label for="password">{{ form.password.label.text }}:</label>
+        {{form.password(id="password",class="form-control")}}<br><br>
+
+        {% if form.password.errors %}
+            <ul>
+                {% for error in form.password.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+    {{ form.submit(class="btn btn-dark mt-4") }}
+  </form>
+</div>
+
+</body>
+</html>
