@@ -41,16 +41,38 @@ Built for **Smart India Hackathon 2025**
 - README.md  → Project overview (This file)
 
 **Tree Structure**
-```
-SIH-project-mental-health-forum/
-├── Frontend/         # UI files (HTML, CSS, JS)
-├── Backend/          # Flask backend (Python, APIs, Database)
-├── Docs/             # Documentation, reports, PPTs
-├── .gitignore        # Ignore unnecessary files
-├── README.md         # Project overview
-└── LICENSE           # License details
-```
 
+SIH-project-mental-health-forum/
+│
+├── app.py                 # Main Flask app
+├── config.py              # DB configurations secret keys
+├── models.py              # DB models/quierie 
+│
+├── templates/             # HTML (frontend)
+│   ├── index.html
+│   ├── index1.html
+│   ├── login.html
+│   ├── registration.html
+│   └── register.html
+│
+├── static/                # Static assets
+│   ├── css/
+│   │   ├── style.css
+│   │   └── style2.css
+│   ├── js/
+│   │   └── script.js
+│   └── img/
+│       └── logo.jpeg
+│
+├── database/              # MySQL scripts
+│   ├── schema.sql
+│   ├── seed.sql
+│   └── mental_health_backup.sql
+│
+├── requirements.txt       # Python dependencies
+├── .gitignore
+├── LICENSE
+└── README.md
 ---
 ## 🛠️ Tech Stack (Skills)
 - **Version Control** : Git CLI and Github
