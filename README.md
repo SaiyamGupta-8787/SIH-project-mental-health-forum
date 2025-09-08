@@ -41,7 +41,7 @@ Built for **Smart India Hackathon 2025**
 - README.md  → Project overview (This file)
 
 **Tree Structure**
-
+```
 SIH-project-mental-health-forum/
 │
 ├── app.py                 # Main Flask app
@@ -73,6 +73,7 @@ SIH-project-mental-health-forum/
 ├── .gitignore
 ├── LICENSE
 └── README.md
+```
 ---
 ## 🛠️ Tech Stack (Skills)
 - **Version Control** : Git CLI and Github
