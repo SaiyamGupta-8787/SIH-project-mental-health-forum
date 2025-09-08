@@ -48,7 +48,7 @@ SIH-project-mental-health-forum/
 ├── Docs/             # Documentation, reports, PPTs
 ├── .gitignore        # Ignore unnecessary files
 ├── README.md         # Project overview
-└── LICENSE           # License details
+└── LICENSE           # License detail
 ```
 
 ---
