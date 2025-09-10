@@ -1,6 +1,51 @@
-# Log Files
+# Python/Flask common ignores
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Environments
+.env
+.env.*
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# byte-compiled / caches
+*.pyc
+*.pyo
+*.pyd
+*.cache
+pip-log.txt
+
+# Database/Local files
+*.sqlite3
+*.db
+*.sqlite
+instance/
+*.sql
+
+# IDEs / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ngrok credentials
+.ngrok2/
+ngrok.yml
+
+# macOS
+.AppleDouble
+.LSOverride
+
+# Logs
 *.log
 
-# Executables Files
-*.exe
+# Flask-Migrate
+migrations/versions/*.pyc
+
 
