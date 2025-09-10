@@ -70,7 +70,7 @@ SIH-project-mental-health-forum/
 │
 ├── templates/             # HTML (frontend)
 │   ├── index.html
-│   ├── index1.html
+│   ├── registration.html
 │   ├── login.html
 │   ├── registration.html
 │   └── register.html
@@ -214,3 +214,4 @@ etc
 
 **This project is licensed under MIT License.**            
 This means anyone can use, modify, and share this project and its contributions, as long as credit is given.
+
