@@ -1,8 +1,0 @@
-# Log Files
-*.log
-
-# Executables Files
-*.exe
-
-#.env
-*.env
