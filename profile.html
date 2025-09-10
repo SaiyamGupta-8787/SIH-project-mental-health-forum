@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Profile</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:18px;color:#222}
+    .card{max-width:900px;margin:0 auto;padding:18px;border-radius:10px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    .avatar{width:120px;height:120px;border-radius:8px;background:#eee;display:flex;align-items:center;justify-content:center;font-weight:700;color:#666}
+    a.btn{display:inline-block;padding:8px 12px;background:#0b74ff;color:#fff;border-radius:6px;text-decoration:none}
+  </style>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div id="flash-messages">
+      {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<style>
+.flash { padding:12px; margin:10px 0; border-radius:6px; font-weight:700; }
+.flash-success { background:#d4edda; color:#155724; }
+.flash-error { background:#f8d7da; color:#721c24; }
+</style>
+
+<script>
+setTimeout(()=>{
+  const f = document.getElementById('flash-messages');
+  if(f){ f.style.transition = 'opacity .6s'; f.style.opacity = 0; setTimeout(()=>f.remove(),600); }
+}, 3000);
+</script>
+
+  <div style="max-width:1100px;margin:0 auto">
+    <p><a href="{{ url_for('index') }}">&larr; Home</a></p>
+
+    <div class="card">
+      <div style="display:flex;gap:18px;align-items:flex-start">
+        <div style="flex:0 0 140px">
+          <div class="avatar">{{ display_name[:1]|upper }}</div>
+        </div>
+        <div style="flex:1">
+          <h2>{{ display_name }}</h2>
+          <p><strong>Role:</strong> {{ owner.role }}</p>
+          <p><strong>Email:</strong>
+            {% if owner.anonymous and viewer and viewer.id != owner.id and (profile and profile.prefers_anonymous) %}
+              Hidden
+            {% else %}
+              {{ owner.email }}
+            {% endif %}
+          </p>
+
+          {% if profile %}
+            <p><strong>College:</strong> {{ profile.college or '-' }}</p>
+            <p><strong>Year:</strong> {{ profile.year_of_study or '-' }}</p>
+            <p><strong>Language:</strong> {{ profile.language_pref or 'en' }}</p>
+            <p><strong>Prefers anonymous:</strong> {{ 'Yes' if profile.prefers_anonymous else 'No' }}</p>
+          {% else %}
+            <p>No profile information yet.</p>
+          {% endif %}
+
+          {% if viewer and viewer.id == owner.id %}
+            <p><a class="btn" href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{{ thread.title }}</title>
+  <style>
+    body{font-family:Arial;padding:18px}
+    .wrap{max-width:900px;margin:0 auto}
+    .post{background:#fff;padding:12px;border-radius:8px;border:1px solid #eee;margin-bottom:10px}
+    .meta{color:#666;font-size:13px}
+    textarea{width:100%;min-height:100px;padding:10px;border-radius:6px;border:1px solid #ccc}
+    button{background:#0b74ff;color:#fff;padding:8px 12px;border:none;border-radius:6px;cursor:pointer}
+    .actions{margin-top:8px}
+    .inline{display:inline}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="{{ url_for('threads') }}">&larr; Back to threads</a></p>
+
+    <h1>{{ thread.title }}</h1>
+    <div class="meta">
+      {% if thread.creator %}
+        {% set creator = thread.creator %}
+        {% set profile = creator.profile %}
+        {% set hide = profile and profile.prefers_anonymous %}
+        {% if hide and (not viewer or (viewer.id != creator.id and (viewer.role != 'Admin'))) %}
+          Anonymous
+        {% else %}
+          {{ creator.name }}
+        {% endif %}
+      {% else %}
+        [deleted]
+      {% endif %}
+      · {{ thread.created_at.strftime('%Y-%m-%d %H:%M') }}
+      {% if viewer and (viewer.role=='Admin' or viewer.id == thread.creator_id) %}
+        · <a href="{{ url_for('thread_edit', thread_id=thread.id) }}">Edit</a>
+      {% endif %}
+    </div>
+
+    <hr>
+
+    <h3>Replies</h3>
+
+    {% for p in posts %}
+      <div class="post">
+        <div class="meta">
+          {% if p.author %}
+            {% set author = p.author %}
+            {% set profile = author.profile %}
+            {% set hide = profile and profile.prefers_anonymous %}
+            {% if hide and (not viewer or (viewer.id != author.id and (viewer.role != 'Admin'))) %}
+              Anonymous
+            {% else %}
+              {{ author.name }}
+            {% endif %}
+          {% else %}
+            [deleted]
+          {% endif %}
+          · {{ p.created_at.strftime('%Y-%m-%d %H:%M') }}
+          {% if viewer and (viewer.role=='Admin' or viewer.id == p.author_id) %}
+            · <a href="{{ url_for('post_edit', post_id=p.id) }}">Edit</a>
+            <form method="POST" action="{{ url_for('post_delete', post_id=p.id) }}" class="inline" style="display:inline" onsubmit="return confirm('Delete post?');">
+              <button type="submit" style="background:#e33;padding:6px 8px;margin-left:8px;border-radius:6px;border:none;color:#fff;">Delete</button>
+            </form>
+          {% endif %}
+        </div>
+        <div style="margin-top:8px; white-space:pre-wrap;">{{ p.content }}</div>
+      </div>
+    {% else %}
+      <p>No replies yet.</p>
+    {% endfor %}
+
+    <hr>
+
+    {% if viewer %}
+      <h3>Post a reply</h3>
+      <form method="POST" action="{{ url_for('thread_view', thread_id=thread.id) }}">
+        <textarea name="content" placeholder="Write your reply..."></textarea>
+        <div style="margin-top:8px"><button type="submit">Reply</button></div>
+      </form>
+    {% else %}
+      <p><a href="{{ url_for('login_page') }}">Log in</a> to reply.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

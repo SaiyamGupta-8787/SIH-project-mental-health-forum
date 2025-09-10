@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Resources</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#f6f7fb;color:#222;margin:0;padding:18px}
+    .wrap{max-width:980px;margin:0 auto}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+    .list{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(20,30,60,.06)}
+    .card{padding:12px;border-bottom:1px solid #f0f2f5}
+    .card-title{font-weight:700;margin-bottom:6px}
+    .meta{color:#666;font-size:13px}
+    .detail{background:#fff;padding:14px;border-radius:10px;box-shadow:0 6px 18px rgba(20,30,60,.06)}
+    .muted{color:#666;font-size:13px}
+    .flash{padding:10px;border-radius:8px;margin-bottom:10px}
+    .flash-success{background:#d4edda;color:#155724}
+    .flash-error{background:#f8d7da;color:#721c24}
+    a.link{color:#0b74ff;text-decoration:none}
+    .btn-small{background:#0b74ff;color:#fff;padding:6px 10px;border-radius:6px;text-decoration:none}
+    form.inline{display:inline}
+    textarea{width:100%;min-height:100px;padding:8px;border-radius:6px;border:1px solid #ddd}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Resources</h1>
+      <div><a class="link" href="{{ url_for('index') }}">&larr; Home</a></div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="grid">
+      <div class="list">
+        {% if viewer and viewer.role in ('Counselor','Admin') %}
+          <div style="margin-bottom:12px; padding:10px; background:#fbfdff;border-radius:8px;border:1px solid #eef6ff">
+            <div style="font-weight:700;margin-bottom:6px">Add new resource</div>
+            <form method="POST" action="{{ url_for('resources') }}">
+              <input name="title" type="text" placeholder="Title (min 3 chars)">
+              <select name="type">
+                <option value="article">Article</option>
+                <option value="audio">Audio</option>
+                <option value="video">Video</option>
+                <option value="other">Other</option>
+              </select>
+              <input name="url" type="text" placeholder="https://example.com/resource">
+              <select name="language">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी</option>
+              </select>
+              <textarea name="description" placeholder="Short description (optional)"></textarea>
+              <div style="display:flex;gap:8px; margin-top:6px;">
+                <button type="submit">Save</button>
+                <a class="link" href="{{ url_for('resources') }}" style="align-self:center;">Clear</a>
+              </div>
+            </form>
+            <div class="muted" style="margin-top:8px">Only Counselors/Admins can add resources.</div>
+          </div>
+        {% endif %}
+
+        {% if resources %}
+          {% for r in resources %}
+            <div class="card">
+              <div class="card-title"><a class="link" href="{{ url_for('resources', view=r.id) }}">{{ r.title }}</a></div>
+              <div class="meta">{{ r.type }} · {{ r.language or 'en' }} · {{ r.created_at.strftime('%Y-%m-%d') }}</div>
+              <div style="margin-top:8px">{{ r.description[:160] if r.description else '' }}{% if r.description and r.description|length > 160 %}…{% endif %}</div>
+
+              {% if viewer and (viewer.role == 'Admin' or viewer.id == r.creator_id) %}
+                <div style="margin-top:8px">
+                  <a class="btn-small" href="{{ url_for('resource_edit', resource_id=r.id) }}">Edit</a>
+
+                  <form class="inline" method="POST" action="{{ url_for('resource_delete', resource_id=r.id) }}" onsubmit="return confirm('Delete this resource?');">
+                    <button type="submit" style="background:#e33;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;margin-left:8px;">Delete</button>
+                  </form>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="muted">No resources yet.</p>
+        {% endif %}
+      </div>
+
+      <aside class="detail">
+        {% if resource_obj %}
+          <h2 style="margin-top:0">{{ resource_obj.title }}</h2>
+          <p class="muted">{{ resource_obj.type }} · {{ resource_obj.language or 'en' }} · {{ resource_obj.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+          <p style="margin:12px 0; white-space:pre-wrap;">{{ resource_obj.description or '' }}</p>
+          <p>Link: <a href="{{ resource_obj.url }}" target="_blank" rel="noopener noreferrer">{{ resource_obj.url }}</a></p>
+          <p class="muted">Added by: {% if resource_obj.creator %}{{ resource_obj.creator.name }}{% else %}[deleted]{% endif %}</p>
+
+          {% if viewer and (viewer.role == 'Admin' or viewer.id == resource_obj.creator_id) %}
+            <p style="margin-top:8px">
+              <a class="btn-small" href="{{ url_for('resource_edit', resource_id=resource_obj.id) }}">Edit</a>
+              <form class="inline" method="POST" action="{{ url_for('resource_delete', resource_id=resource_obj.id) }}" onsubmit="return confirm('Delete this resource?');">
+                <button type="submit" style="background:#e33;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;margin-left:8px;">Delete</button>
+              </form>
+            </p>
+          {% endif %}
+        {% else %}
+          <h3 style="margin-top:0">Resource details</h3>
+          <p class="muted">Click a resource title on the left to view details here.</p>
+        {% endif %}
+      </aside>
+    </div>
+  </div>
+</body>
+</html>

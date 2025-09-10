@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="{{ request.args.get('lang', 'en') }}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ texts.get('page_title', 'MANTHAN - Mental Health Platform') }}</title>
+</head>
+
+
+<!-- Fonts & Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Hind&display=swap" rel="stylesheet">
+
+<style>
+    /* RESET */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        } */
+
+    /* NAVBAR */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+        background-size: 400% 400%;
+        animation: gradientShift 20s ease infinite;
+        padding: 15px 40px;
+        height: 70px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .logo-img {
+        height: 45px;
+        border-radius: 50%;
+        transition: .3s;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.1);
+    }
+
+    .site-name {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: white;
+        letter-spacing: 1px;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+    }
+
+    .nav-links li a {
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 20px;
+        position: relative;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+    .login-btn {
+        background: linear-gradient(135deg, #1ABC9C, #16A085);
+    }
+
+    .register-btn {
+        background: linear-gradient(135deg, #28B463, #1D8348);
+    }
+
+    .login-btn:hover,
+    .register-btn:hover {
+        opacity: .9;
+    }
+
+    .language-dropdown {
+        padding: 6px 10px;
+        border-radius: 10px;
+        border: none;
+    }
+
+    /* HAMBURGER (mobile) */
+    .hamburger {
+        display: none;
+        font-size: 1.6rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* SIDE NAV */
+    .sidenav {
+        width: 250px;
+        background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+        padding-top: 20px;
+        height: 100%;
+        flex-shrink: 0;
+        position: sticky;
+        top: 70px;
+        overflow-y: auto;
+        transition: transform .3s ease;
+    }
+
+    .sidenav h2 {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    .sidenav a {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 0.95rem;
+        transition: .3s;
+    }
+
+    .sidenav a:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidenav .section-header {
+        padding: 10px 20px;
+        font-weight: 600;
+        color: white;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.1);
+        transition: background 0.3s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .submenu.open {
+        max-height: 500px;
+    }
+
+    /* Arrow style */
+    .arrow {
+        transition: transform 0.3s;
+        display: inline-block;
+    }
+
+    .arrow.down {
+        transform: rotate(90deg);
+    }
+
+    .sidenav .submenu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height .3s ease;
+    }
+
+    .sidenav .submenu a {
+        padding-left: 40px;
+        font-size: 0.9rem;
+    }
+
+    /* Dropdown fix */
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: rgba(88, 214, 141, 0.95);
+        border-radius: 18px;
+        min-width: 180px;
+        list-style: none;
+        padding: 10px 0;
+        z-index: 999;
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-menu li a {
+        display: block;
+        padding: 8px 16px;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    .dropdown-menu li a:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    /* MAIN CONTENT */
+    .content {
+        flex: 1;
+        padding: 30px;
+    }
+
+    /* Push main content to the right of sidenav */
+    main {
+        flex: 1;
+        margin-left: 250px;
+        /* equal to sidenav width */
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .content h1 {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .content p {
+        text-align: center;
+        color: #555;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+        min-height: 100vh;
+    }
+
+    /* Ensure content centers */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        /* centers horizontally */
+        padding: 0 20px;
+    }
+
+
+    .btn {
+        padding: 0.7rem 1.5rem;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: #5DADE2;
+        border: 2px solid #5DADE2;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(93, 173, 226, 0.3);
+    }
+
+    main {
+        background: rgba(255, 255, 255, 0.95);
+        margin: 2rem 0;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        min-height: calc(100vh - 70px - 60px);
+        /* 70px = header, 60px = footer */
+        margin-left: 280px;
+        /* keep space for side navbar */
+    }
+
+    .hero {
+        background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+        color: white;
+        padding: 4rem 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0px);
+        }
+
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .search-bar {
+        max-width: 500px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .search-bar input {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+
+    .search-bar input:focus {
+        box-shadow: 0 0 0 3px rgba(93, 173, 226, 0.3);
+    }
+
+    .search-bar button {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .search-bar button:hover {
+        transform: translateY(-50%) scale(1.05);
+    }
+
+    .content-grid {
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+        gap: 2rem;
+        align-items: flex-start;
+        overflow-x: auto;
+    }
+
+
+
+    .section-title {
+        font-size: 1.8rem;
+        color: #333;
+        margin-bottom: 1rem;
+        border-left: 4px solid #5DADE2;
+        padding-left: 1rem;
+        position: relative;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+    }
+
+    .health-categories {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .category-card {
+        background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .category-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .category-card:hover::before {
+        left: 100%;
+    }
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(93, 173, 226, 0.3);
+    }
+
+    .category-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .category-card h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .category-card p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+
+
+    .post-meta {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+
+    .post-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .post-snippet {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    /* Sidebar properly aligned */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .sidebar-section {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 15px;
+        border: 1px solid rgba(93, 173, 226, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-section:hover {
+        box-shadow: 0 4px 15px rgba(93, 173, 226, 0.1);
+    }
+
+    .sidebar-section h3 {
+        color: #333;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .sidebar-section h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 30px;
+        height: 2px;
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .stat-item {
+        text-align: center;
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .stat-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(93, 173, 226, 0.1);
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .featured-experts {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .expert-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: white;
+        padding: 1rem;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .expert-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 15px rgba(93, 173, 226, 0.1);
+    }
+
+    .expert-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .expert-info h4 {
+        margin-bottom: 0.2rem;
+        color: #333;
+    }
+
+    .expert-info p {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .health-tips {
+        background: linear-gradient(135deg, #5DADE2, #58D68D, #85C1E9, #82E0AA);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .health-tips::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='20' cy='20' r='2'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .health-tips h3 {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 1rem;
+    }
+
+    .tip-item {
+        background: rgba(255, 255, 255, 0.1);
+        margin: 0.5rem 0;
+        padding: 0.8rem;
+        border-radius: 8px;
+        backdrop-filter: blur(5px);
+        position: relative;
+        z-index: 2;
+        transition: all 0.3s ease;
+    }
+
+    .tip-item:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateX(5px);
+    }
+
+    .trending-topics {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+
+    .topic-tag {
+        background: linear-gradient(135deg, #5DADE2, #58D68D);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: none;
+    }
+
+    .topic-tag:hover {
+        background: linear-gradient(135deg, #58D68D, #82E0AA);
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 4px 10px rgba(93, 173, 226, 0.3);
+    }
+
+
+
+
+
+    @media (max-width: 768px) {
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+            display: none;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero p {
+            font-size: 1rem;
+        }
+
+        .health-categories {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* Loading animations */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .main-content>* {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* Main container (right next to sidebar) */
+    main {
+        flex: 1;
+        margin-left: 5px;
+        margin-right: 20px;
+        /* same width as sidebar */
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        min-height: calc(100vh - 70px);
+        /* full height minus navbar */
+        overflow: visible;
+        /* let content expand */
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Inner content inside main */
+    .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem;
+        width: 100%;
+        /* full width inside main */
+    }
+
+    /* Logo container */
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+    }
+
+    /* Logo image bigger without touching navbar */
+    .logo-img {
+        height: 60px;
+        /* increased size */
+        width: auto;
+        margin-top: -10px;
+        /* pull it up inside navbar */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 50px;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.15);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        border-radius: 0px;
+        cursor: pointer;
+        transition: 0.3 ease;
+    }
+
+    /* Site name remains same */
+    .site-name {
+        font-family: 'Poppins', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .site-name:hover {
+        transform: scale(1.01);
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+        /*text-decoration: underline;*/
+        cursor: pointer;
+    }
+
+    /* Underline effect using ::after pseudo-element */
+    .site-name::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        /* space below text */
+        width: 0%;
+        height: 3px;
+        /* thickness of underline */
+        background-color: #ffffff;
+        /* bright, noticeable */
+        border-radius: 2px;
+        transition: width 0.4s ease;
+    }
+
+    .site-name:hover::after {
+        width: 100%;
+    }
+
+    .nav-links {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 25px;
+    }
+
+    /* Main Links */
+    .nav-links li a {
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+        padding: 12px 22px;
+        border-radius: 30px;
+        transition: all 0.4s ease;
+        position: relative;
+    }
+
+    .nav-links li a:hover,
+    .nav-links li a.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+
+    .sidebar>* {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    /* Pulse effect for stats */
+    @keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    .stat-number {
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* FOOTER */
+    .footer {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: #f0f0f0;
+        padding: 40px 20px 20px;
+    }
+
+    .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .footer-section h3 {
+        color: #9BC53D;
+        margin-bottom: 10px;
+    }
+
+    .footer-section a {
+        color: #f0f0f0;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+
+    .footer-section a:hover {
+        text-decoration: underline;
+        color: #A8E6CF;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.8rem;
+        color: #aaa;
+    }
+
+    /* LAYOUT FIX */
+    .layout {
+        display: flex;
+        flex: 1;
+    }
+
+
+
+    /* RESPONSIVE */
+    @media(max-width:992px) {
+        .layout {
+            flex-direction: column;
+        }
+
+        .sidenav {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: 0;
+        }
+
+        .sidenav h2 {
+            margin: 10px 0;
+        }
+
+        .submenu {
+            max-height: 500px;
+        }
+
+        /* auto expand on small */
+    }
+
+    @media(max-width:768px) {
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            background: #58D68D;
+            position: absolute;
+            top: 70px;
+            right: 0;
+            width: 200px;
+            border-radius: 0 0 0 10px;
+            padding: 10px 0;
+        }
+
+        .nav-links.show {
+            display: flex;
+        }
+
+        .dropdown-menu {
+            position: static;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            padding-left: 20px;
+        }
+
+        .hamburger {
+            display: block;
+        }
+    }
+
+    /* -------------------------
+   Manthan — Feature CSS
+   Paste this at the END of your current <style>
+   ------------------------- */
+
+    /* theme vars */
+    :root {
+        --accent-1: #5DADE2;
+        --accent-2: #58D68D;
+        --accent-3: #7FB069;
+        --muted: #6b7785;
+        --card-bg: #ffffff;
+        --glass: rgba(255, 255, 255, 0.95);
+        --soft-shadow: 0 8px 30px rgba(15, 32, 39, 0.06);
+        --radius: 14px;
+        --max-width-card: 920px;
+    }
+
+    /* helper */
+    .hidden {
+        display: none !important;
+    }
+
+    /* ---------- EMOTION CHECK ---------- */
+    main .emotion-check {
+        background: var(--glass);
+        border-radius: var(--radius);
+        padding: 22px;
+        margin: 20px auto;
+        max-width: var(--max-width-card);
+        box-shadow: var(--soft-shadow);
+        text-align: center;
+        border: 1px solid rgba(127, 176, 105, 0.08);
+    }
+
+    main .emotion-check h2 {
+        font-size: 1.45rem;
+        color: #0f3b45;
+        margin-bottom: 12px;
+        font-weight: 700;
+    }
+
+    main .emotion-options {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    main .emotion-btn {
+        background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        font-size: 1rem;
+        box-shadow: 0 8px 18px rgba(47, 83, 100, 0.12);
+        transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    main .emotion-btn:hover,
+    main .emotion-btn:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 30px rgba(47, 83, 100, 0.16);
+        outline: none;
+    }
+
+    main .tips-card {
+        margin: 18px auto 0;
+        padding: 18px 18px;
+        background: #f7fffb;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(12, 40, 36, 0.04);
+        border-left: 4px solid rgba(127, 176, 105, 0.9);
+        max-width: 760px;
+        text-align: left;
+        color: #07303a;
+    }
+
+    main .tips-card h3 {
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+        color: #05323a;
+    }
+
+    main .tips-card ul {
+        padding-left: 18px;
+        margin-top: 8px;
+        color: #23474b;
+    }
+
+    main .tips-card p {
+        margin: 6px 0;
+        color: #23474b;
+    }
+
+    /* ---------- POLL (sidebar) ---------- */
+    .sidebar .poll-section {
+        background: var(--card-bg);
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(93, 173, 226, 0.08);
+    }
+
+    .sidebar .poll-section h3 {
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+        color: #123b4a;
+    }
+
+    .sidebar .poll-section p {
+        color: var(--muted);
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+    }
+
+    .sidebar .poll-section label {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        margin: 6px 0;
+        cursor: pointer;
+        color: #2b4b57;
+        font-weight: 600;
+    }
+
+    .sidebar .poll-section input[type="radio"] {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--accent-3);
+    }
+
+    .sidebar .poll-section button#submitPoll {
+        margin-top: 10px;
+        background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform .15s ease;
+    }
+
+    .sidebar .poll-section button#submitPoll:hover {
+        transform: translateY(-3px);
+    }
+
+    /* poll result text */
+    .sidebar #pollResult {
+        margin-top: 10px;
+        color: #2e6b5b;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    /* ---------- DAILY CHALLENGE ---------- */
+    main .daily-challenge {
+        background: linear-gradient(135deg, #fff, rgb(208, 255, 146));
+        border-radius: 12px;
+        padding: 18px;
+        margin: 22px auto;
+        max-width: 820px;
+        box-shadow: 0 8px 22px rgba(19, 72, 101, 0.04);
+        border: 1px solid rgba(93, 173, 226, 0.06);
+        text-align: center;
+    }
+
+    main .daily-challenge h2 {
+        font-size: 1.2rem;
+        color: #163d4a;
+        margin-bottom: 6px;
+    }
+
+    main .daily-challenge p {
+        color: #455a64;
+        font-size: 1rem;
+    }
+
+    main .daily-challenge .challenge-note {
+        margin-top: 8px;
+        font-weight: 600;
+        color: #2b5d57;
+    }
+
+    /* ---------- SCREEN BREAK BANNER ---------- */
+    main .screen-break {
+        background: linear-gradient(135deg, #fff6ea, #ffd6b0);
+        color: #1a2a2a;
+        text-align: center;
+        padding: 16px 18px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        border-radius: 12px;
+        margin: 18px auto 30px;
+        width: 86%;
+        max-width: 820px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+        border: 1px solid rgba(246, 161, 77, 0.14);
+        position: relative;
+    }
+
+    /* dismiss button placeholder (no JS required, style ready) */
+    main .screen-break .dismiss {
+        position: absolute;
+        right: 12px;
+        top: 8px;
+        background: transparent;
+        border: none;
+        font-size: 1.1rem;
+        cursor: pointer;
+        color: rgba(26, 26, 26, 0.7);
+    }
+
+    /* ---------- small utilities ---------- */
+    .center-inline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    /* ---------- Responsive / Media queries ---------- */
+
+    /* Large tablets and below */
+    @media (max-width: 992px) {
+        :root {
+            --max-width-card: 760px;
+        }
+
+        main .emotion-check,
+        main .daily-challenge,
+        main .tips-card,
+        main .screen-break {
+            width: 92%;
+            padding: 18px;
+            margin: 18px auto;
+        }
+
+        main .emotion-options {
+            gap: 10px;
+        }
+
+        .content-grid {
+            grid-template-columns: 1fr;
+        }
+
+        main {
+            margin-left: 0;
+            margin-right: 0;
+            min-height: auto;
+        }
+
+        .sidenav {
+            position: relative;
+            width: 100%;
+            top: 0;
+        }
+
+        .layout {
+            flex-direction: column;
+        }
+    }
+
+    /* Narrow phones */
+    @media (max-width: 768px) {
+        main .emotion-check h2 {
+            font-size: 1.2rem;
+        }
+
+        main .emotion-options {
+            gap: 8px;
+            justify-content: center;
+        }
+
+        main .emotion-btn {
+            padding: 10px 12px;
+            font-size: .95rem;
+        }
+
+        main .tips-card {
+            padding: 14px;
+            font-size: 0.95rem;
+        }
+
+        .sidebar .poll-section {
+            padding: 14px;
+        }
+
+        main .daily-challenge {
+            padding: 14px;
+            font-size: .95rem;
+        }
+
+        main .screen-break {
+            font-size: .98rem;
+            padding: 12px;
+            width: 94%;
+        }
+    }
+
+    /* Very small */
+    @media (max-width: 480px) {
+        main .emotion-options {
+            gap: 6px;
+        }
+
+        main .emotion-btn {
+            padding: 8px 10px;
+            font-size: .92rem;
+        }
+
+        main .tips-card {
+            font-size: .92rem;
+            padding: 12px;
+        }
+
+        .sidebar .poll-section label {
+            font-size: .95rem;
+        }
+
+        .sidebar .poll-section button#submitPoll {
+            width: 100%;
+            padding: 10px;
+        }
+
+        nav .site-name {
+            font-size: 1.2rem;
+        }
+    }
+
+    /* end of feature CSS */
+</style>
+</head>
+
+<body>
+    <!-- Flash Messages (fixed) -->
+    {% include "flash.html" %}
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div style="position:fixed; top:15px; right:15px; z-index:9999;">
+        {% for category, message in messages %}
+        {% set flash_bg = 'green' if category == 'success' else 'crimson' %}
+        {% set flash_style =
+        'padding:10px 15px; margin-bottom:8px; border-radius:6px; '
+        ~ 'font-size:14px; font-family:Poppins, sans-serif; color:#fff; '
+        ~ 'background-color:' ~ flash_bg ~ '; '
+        ~ 'box-shadow:0 2px 6px rgba(0,0,0,0.2);' %}
+        
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <script>
+        // auto-hide flash messages after 4 seconds with a fade
+        (function () {
+            setTimeout(function () {
+                document.querySelectorAll('.flash-message-inline').forEach(function (el) {
+                    el.style.transition = 'opacity .5s, transform .5s';
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(-6px)';
+                    setTimeout(function () { el.remove(); }, 500);
+                });
+            }, 4000);
+        })();
+    </script>
+
+        <!-- put into your navbar/header where login/register lives -->
+{% if session.get('user_name') %}
+  <span style="margin-left:10px;">
+    <a href="{{ url_for('logout') }}">{{ texts.get('logout', 'Logout') }}</a>
+  </span>
+{% else %}
+  <a href="{{ url_for('login_page') }}">{{ texts.get('login', 'Login') }}</a> |
+  <a href="{{ url_for('register_page') }}">{{ texts.get('register', 'Register') }}</a>
+{% endif %}
+
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="logo" class="logo-img">
+            <span class="site-name">{{ texts.get('brand_name', 'MANTHAN') }}</span>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#" class="active">{{ texts.get('home', 'Home') }}</a></li>
+            <li class="dropdown">
+                <a href="#">{{ texts.get('guided_support', 'Guided Support') }} ▾</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">{{ texts.get('stress_relief', 'Stress Relief') }}</a></li>
+                    <li><a href="#">{{ texts.get('anxiety_help', 'Anxiety Help') }}</a></li>
+                    <li><a href="#">{{ texts.get('motivation_tips', 'Motivation Tips') }}</a></li>
+                </ul>
+            </li>
+
+            <form method="get" id="languageForm" style="display:inline-block; margin-left:15px;">
+                <select name="lang" onchange="document.getElementById('languageForm').submit()" style="padding:6px 12px; border-radius:8px; border:1px solid #ccc; 
+               background:#f9f9f9; font-size:14px; font-family:Poppins, sans-serif; 
+               cursor:pointer; transition:0.3s;">
+
+                    <option value="en" {% if request.args.get('lang')=='en' %}selected{% endif %}>English</option>
+                    <option value="hi" {% if request.args.get('lang')=='hi' %}selected{% endif %}>हिन्दी</option>
+                    <option value="ur" {% if request.args.get('lang')=='ur' %}selected{% endif %}>Urdu</option>
+                    <option value="ta" {% if request.args.get('lang')=='ta' %}selected{% endif %}>Tamil</option>
+                </select>
+            </form>
+
+
+            <li><a href="login" class="login-btn">{{ texts.get('login', 'Login') }}</a></li>
+            <li><a href="register" class="register-btn">{{ texts.get('register', 'Register') }}</a></li>
+        </ul>
+
+        <div class="hamburger"><i class="fas fa-bars"></i></div>
+    </nav>
+
+
+    <!-- LAYOUT -->
+    <div class="layout" style="display:flex; flex:1;">
+        <!-- SIDENAV -->
+        <div class="sidenav">
+            <h2>✨ {{ texts.get('brand_name', 'MANTHAN') }}</h2>
+
+            <div class="section-header" onclick="toggleMenu(this)">👤 {{ texts.get('profile', 'Profile') }} <span
+                    class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="/profile">{{ texts.get('view_profile', 'View Profile') }}</a>
+                <a href="/profile/edit">{{ texts.get('edit_profile', 'Edit Profile') }}</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">📂 {{ texts.get('forum', 'Forum') }} <span
+                    class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="{{ url_for('threads') }}">{{ texts.get('exam_stress', 'Exam Stress') }}</a>
+                <a href="{{ url_for('threads') }}">{{ texts.get('relationships', 'Relationships') }}</a>
+                <a href="{{ url_for('threads') }}">{{ texts.get('sleep_issues', 'Sleep Issues') }}</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">🧘 {{ texts.get('wellness_tools', 'Wellness Tools')
+                }} <span class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">{{ texts.get('meditation', 'Meditation') }}</a>
+                <a href="#">{{ texts.get('stress_relief', 'Stress Relief') }}</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">📚 {{ texts.get('resources', 'Resources') }} <span
+                    class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="/resources">{{ texts.get('articles', 'Articles') }}</a>
+                <a href="/resources">{{ texts.get('videos', 'Videos') }}</a>
+                <a href="/resources">{{ texts.get('guides', 'Guides') }}</a>
+            </div>
+
+            <div class="section-header" onclick="toggleMenu(this)">⚙️ {{ texts.get('settings', 'Settings') }} <span
+                    class="arrow">▶</span></div>
+            <div class="submenu">
+                <a href="#">{{ texts.get('preferences', 'Preferences') }}</a>
+                <a href="#">{{ texts.get('privacy', 'Privacy') }}</a>
+            </div>
+        </div>
+
+
+        <!-- CONTENT -->
+        <main>
+            <section class="emotion-check" style="background-color: rgb(248, 209, 215);">
+                <h2>{{ texts.get('how_are_you', 'How are you feeling today?') }}</h2>
+                <div class="emotion-options">
+                    <button class="emotion-btn new" data-target="anxious">😟 {{ texts.get('anxious', 'Anxious')
+                        }}</button>
+                    <button class="emotion-btn new" data-target="stressed">😩 {{ texts.get('stressed', 'Stressed')
+                        }}</button>
+                    <button class="emotion-btn " data-target="lonely">😔 {{ texts.get('lonely', 'Lonely') }}</button>
+                    <button class="emotion-btn new" data-target="fine">🙂 {{ texts.get('fine', 'Fine') }}</button>
+                </div>
+
+                <div id="anxious" class="tips-card hidden">
+                    <h3>{{ texts.get('anxiety_tip', 'You might be experiencing anxiety') }}</h3>
+                    <ul>
+                        <li>{{ texts.get('breathing_ex', '🌬️ Try a breathing exercise') }}</li>
+                        <li>{{ texts.get('coping_strategies', '📖 Read coping strategies') }}</li>
+                        <li>{{ texts.get('call_helpline', '☎️ Call a helpline') }}</li>
+                    </ul>
+                </div>
+
+                <div id="stressed" class="tips-card hidden">
+                    <h3>{{ texts.get('feeling_stressed', 'Feeling stressed?') }}</h3>
+                    <p>{{ texts.get('stress_tips', '🧘 Do 5 min meditation<br>🎶 Listen to calming audio')|safe }}</p>
+                </div>
+
+                <div id="lonely" class="tips-card hidden">
+                    <h3>{{ texts.get('feeling_lonely', 'Feeling lonely?') }}</h3>
+                    <p>{{ texts.get('lonely_tips', '🤝 Join our Peer Forum<br>📱 Connect with community')|safe }}</p>
+                </div>
+
+                <div id="fine" class="tips-card hidden">
+                    <h3>{{ texts.get('great_to_hear', 'Great to hear!') }}</h3>
+                    <p>{{ texts.get('positive_tip', '💪 Stay positive 🌟 Share a smile today') }}</p>
+                </div>
+            </section>
+
+            <div class="hero">
+                <div class="container">
+                    <h1>{{ texts.get('health_journey', 'Your Health Journey Starts Here') }}</h1>
+                    <p>{{ texts.get('health_journey_desc', 'Connect with a supportive community, get expert advice, and
+                        find answers to your health questions in a safe, moderated environment.') }}</p>
+                    <div class="search-bar">
+                        <input type="text"
+                            placeholder="{{ texts.get('search', 'Search') }} health topics, symptoms, or ask a question...">
+                        <button type="submit">{{ texts.get('search', 'Search') }}</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="container">
+                <div class="content-grid">
+                    <div class="main-content">
+                        <h1 class="section-title" style="font-size:35px; font-family: Poppins;">{{ texts.get('toolkit',
+                            'Your Mental Health Toolkit❤️') }}</h1>
+                        <div class="health-categories">
+                            <a href="#" class="category-card">
+                                <div class="category-icon">❤️</div>
+                                <h3>{{ texts.get('heart_health', 'Heart Health') }}</h3>
+                                <p>2,340 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">🧠</div>
+                                <h3>{{ texts.get('mental_health', 'Mental Health') }}</h3>
+                                <p>4,567 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">💪</div>
+                                <h3>{{ texts.get('fitness', 'Fitness & Exercise') }}</h3>
+                                <p>3,890 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">🥗</div>
+                                <h3>{{ texts.get('nutrition', 'Nutrition') }}</h3>
+                                <p>2,156 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">🤱</div>
+                                <h3>{{ texts.get('womens_health', "Women's Health") }}</h3>
+                                <p>1,789 posts</p>
+                            </a>
+                            <a href="#" class="category-card">
+                                <div class="category-icon">👨‍⚕️</div>
+                                <h3>{{ texts.get('general_medicine', 'General Medicine') }}</h3>
+                                <p>5,234 posts</p>
+                            </a>
+                        </div>
+
+                        <div class="health-tips">
+                            <h3>{{ texts.get('daily_tips', '💡 Daily Health Tips') }}</h3>
+                            <div class="tip-item">{{ texts.get('hydration', 'Hydration Reminder: Aim for 8 glasses of
+                                water daily...') }}</div>
+                            <div class="tip-item">{{ texts.get('sleep_quality', 'Sleep Quality: Maintain a consistent
+                                sleep schedule...') }}</div>
+                            <div class="tip-item">{{ texts.get('movement', 'Movement Matters: Take a 10-minute walk
+                                after meals...') }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar">
+                    <div class="poll-section">
+                        <h3>{{ texts.get('poll', 'Anonymous Poll') }}</h3>
+                        <p>{{ texts.get('poll_q', 'Do you feel academic pressure daily?') }}</p>
+                        <label><input type="radio" name="poll"> {{ texts.get('yes', 'Yes') }}</label><br>
+                        <label><input type="radio" name="poll"> {{ texts.get('no', 'No') }}</label><br>
+                        <button id="submitPoll">{{ texts.get('submit', 'Submit') }}</button>
+                        <p id="pollResult" class="hidden">{{ texts.get('thanks_vote', '✅ Thanks for voting! (Results
+                            hidden)') }}</p>
+                    </div>
+
+                    <div class="sidebar-section" style="background:linear-gradient(#88e2ae, #82E0AA);">
+                        <h3>{{ texts.get('community_stats', 'Community Stats') }}</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number">45K+</div>
+                                <div>{{ texts.get('active_members', 'Active Members') }}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">125K+</div>
+                                <div>{{ texts.get('forum_posts', 'Forum Posts') }}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">850+</div>
+                                <div>{{ texts.get('experts', 'Expert Contributors') }}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div>{{ texts.get('support', 'Community Support') }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section" style="background-color:lightblue;">
+                        <h3>{{ texts.get('featured_experts', 'Featured Health Experts') }}</h3>
+                        <div class="featured-experts">
+                            <div class="expert-card">
+                                <div class="expert-avatar">DH</div>
+                                <div class="expert-info">
+                                    <h4>Dr. Gorav Gupta</h4>
+                                    <p>Cardiologist, 15+ years experience</p>
+                                </div>
+                            </div>
+                            <div class="expert-card">
+                                <div class="expert-avatar">MP</div>
+                                <div class="expert-info">
+                                    <h4>Dr. Ajit Singhk</h4>
+                                    <p>Mental Health Specialist</p>
+                                </div>
+                            </div>
+                            <div class="expert-card">
+                                <div class="expert-avatar">LJ</div>
+                                <div class="expert-info">
+                                    <h4>Priyanka Narang</h4>
+                                    <p>Registered Dietitian</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="daily-challenge">
+                        <h2>{{ texts.get('daily_challenge', '🌟 Daily Challenge') }}</h2>
+                        <p>{{ texts.get('daily_challenge_text', 'Try 5 minutes of meditation today.') }}</p>
+                        <p class="challenge-note">{{ texts.get('challenge_note', 'Complete it and feel refreshed!') }}
+                        </p>
+                    </section>
+
+                    <div class="sidebar-section" style="background-color: beige;">
+                        <h3>{{ texts.get('trending', 'Trending Topics') }}</h3>
+                        <div class="trending-topics">
+                            <span class="topic-tag">#StressManagement</span>
+                            <span class="topic-tag">#HeartHealthy</span>
+                            <span class="topic-tag">#HealthyEating</span>
+                            <span class="topic-tag">#FitnessMotivation</span>
+                            <span class="topic-tag">#MentalWellness</span>
+                            <span class="topic-tag">#SleepBetter</span>
+                            <span class="topic-tag">#PreventiveCare</span>
+                            <span class="topic-tag">#HealthyHabits</span>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section" style="background-color: rgb(247, 247, 148);">
+                        <h3>{{ texts.get('health_disclaimer', '🚨 Health Disclaimer') }}</h3>
+                        <p style="font-size: 0.9rem; color: #666; line-height: 1.4;">
+                            {{ texts.get('disclaimer_text', 'Information shared in this forum is for educational
+                            purposes only...') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+
+    <!-- FOOTER -->
+    <!-- FOOTER (minimal changes for translation) -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>{{ texts.get('about', 'About') }}</h3>
+                <p>{{ texts.get('description',
+                    'Manthan Health Forum provides digital mental health & psychological support for students in higher
+                    education.') }}</p>
+            </div>
+
+            <div class="footer-section">
+                <h3>{{ texts.get('quick_links', 'Quick Links') }}</h3>
+                <a href="#">{{ texts.get('home', 'Home') }}</a><br>
+                <a href="/resources">{{ texts.get('resources', 'Resources') }}</a><br>
+                <a href="#">{{ texts.get('counsellor_booking', 'Counsellor Booking') }}</a><br>
+                <a href="#">{{ texts.get('peer_forum', 'Peer Forum') }}</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>{{ texts.get('languages', 'Language') }}</h3>
+                <!-- minimal links that reload page with ?lang=hi or ?lang=en -->
+                <a href="?lang=hi">{{ texts.get('hindi', 'हिन्दी') }}</a><br>
+                <a href="?lang=en">{{ texts.get('english', 'English') }}</a><br>
+                <a href="?lang=ur">{{ texts.get('urdu', 'Urdu') }}</a><br>
+                <a href="?lang=ta">{{ texts.get('tamil', 'Tamil') }}</a><br>
+            </div>
+
+            <div class="footer-section">
+                <h3>{{ texts.get('contact', 'Contact') }}</h3>
+                <p>{{ texts.get('email', 'Email: support@manthan.edu') }}</p>
+                <p>{{ texts.get('helpline', 'Helpline: +91 12345 67890') }}</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>{{ texts.get('copyright', '© 2025 Manthan Health Forum. All Rights Reserved.') }}</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // Mobile Navbar
+        const hamburger = document.querySelector(".hamburger");
+        const navLinks = document.querySelector(".nav-links");
+
+        hamburger.addEventListener("click", () =>
+            navLinks.classList.toggle("show")
+        );
+
+        document.querySelectorAll(".nav-links a").forEach(link =>
+            link.addEventListener("click", () => navLinks.classList.remove("show"))
+        );
+
+        // Sidebar toggle
+        function toggleMenu(header) {
+            const submenu = header.nextElementSibling;
+            header.querySelector(".arrow").classList.toggle("down");
+            submenu.style.maxHeight = submenu.style.maxHeight ? null : submenu.scrollHeight + "px";
+        }
+        // Emotion Cards Toggle
+        document.querySelectorAll('.emotion-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tips-card').forEach(card => card.classList.add('hidden'));
+                document.getElementById(btn.dataset.target).classList.remove('hidden');
+            });
+        });
+
+        // Poll Submission
+        document.getElementById('submitPoll').addEventListener('click', () => {
+            document.getElementById('pollResult').classList.remove('hidden');
+        });
+
+        // Show screen break banner after 2 minute
+        setTimeout(() => {
+            alert("⏰ Take a short screen break! Stretch, hydrate, and relax 👋");
+        }, 120000); // 2 minutes
+    </script>
+
+</body>

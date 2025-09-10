@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Edit Resource</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;padding:18px;color:#222}
+    .wrap{max-width:700px;margin:0 auto}
+    label{display:block;margin-bottom:6px;font-weight:600}
+    input,select,textarea{width:100%;padding:10px;margin-bottom:12px;border-radius:6px;border:1px solid #ccc}
+    button{background:#0b74ff;color:#fff;padding:10px 14px;border:none;border-radius:6px;cursor:pointer}
+    .muted{color:#666;font-size:13px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="{{ url_for('resources', view=resource.id) }}">&larr; Back</a></p>
+    <h2>Edit Resource</h2>
+    <form method="POST" action="{{ url_for('resource_edit', resource_id=resource.id) }}">
+      <label for="title">Title</label>
+      <input id="title" name="title" type="text" value="{{ resource.title }}">
+
+      <label for="type">Type</label>
+      <select id="type" name="type">
+        <option value="article" {% if resource.type=='article' %}selected{% endif %}>Article</option>
+        <option value="audio" {% if resource.type=='audio' %}selected{% endif %}>Audio</option>
+        <option value="video" {% if resource.type=='video' %}selected{% endif %}>Video</option>
+        <option value="other" {% if resource.type=='other' %}selected{% endif %}>Other</option>
+      </select>
+
+      <label for="url">URL</label>
+      <input id="url" name="url" type="text" value="{{ resource.url }}">
+
+      <label for="language">Language</label>
+      <select id="language" name="language">
+        <option value="en" {% if resource.language=='en' %}selected{% endif %}>English</option>
+        <option value="hi" {% if resource.language=='hi' %}selected{% endif %}>हिन्दी</option>
+      </select>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description">{{ resource.description or '' }}</textarea>
+
+      <div style="margin-top:12px;">
+        <button type="submit">Save changes</button>
+        <a href="{{ url_for('resources', view=resource.id) }}" style="margin-left:12px;">Cancel</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

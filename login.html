@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #00c6ff, #00ff2a);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .flash-message {
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        #loginForm {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 320px;
+        }
+
+        #loginForm h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #000813;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #loginForm input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        #loginForm input:focus {
+            border-color: #00c6ff;
+        }
+
+        #loginForm button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #loginForm button:hover {
+            background: linear-gradient(135deg, #0072ff, #00c6ff);
+        }
+    </style>
+</head>
+<body>
+    {% include "flash.html" %}
+
+    <form id="loginForm" method="POST" action="/login">
+  <div>
+    <label for="role">Role</label>
+    <select id="role" name="role">
+      <option value="Student">Student</option>
+      <option value="Counselor">Counselor</option>
+      <option value="Admin">Admin</option>
+    </select>
+  </div>
+
+  <div>
+    <label><input type="checkbox" id="anonymous" name="anonymous"> Login as Anonymous (Students only)</label>
+  </div>
+
+  <div id="usernameField">
+    <input type="text" name="name" placeholder="Username">
+  </div>
+
+  <div>
+    <input type="email" name="email" placeholder="Email" required>
+  </div>
+
+  <div>
+    <input type="password" name="password" placeholder="Password" required>
+  </div>
+
+  <button type="submit">Login</button>
+</form>
+
+<script>
+const roleSelect = document.getElementById('role');
+const anonCheckbox = document.getElementById('anonymous');
+const usernameField = document.getElementById('usernameField');
+
+function toggleUsernameField() {
+  if (roleSelect.value === "Student" && anonCheckbox.checked) {
+    usernameField.style.display = "none";
+  } else {
+    usernameField.style.display = "block";
+  }
+}
+
+roleSelect.addEventListener('change', toggleUsernameField);
+anonCheckbox.addEventListener('change', toggleUsernameField);
+toggleUsernameField();
+</script>
+
+
+</body>
+</html>
