@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Threads</title>
+  <style>
+    body{font-family:Arial;padding:18px}
+    .wrap{max-width:1000px;margin:0 auto}
+    .thread{background:#fff;padding:12px;border-radius:8px;border:1px solid #eee;margin-bottom:10px}
+    .meta{color:#666;font-size:13px}
+    .actions{margin-top:8px}
+    input[type="text"]{width:100%;padding:10px;border-radius:6px;border:1px solid #ccc}
+    button{background:#0b74ff;color:#fff;padding:8px 12px;border:none;border-radius:6px;cursor:pointer}
+    .flash{padding:10px;margin-bottom:8px;border-radius:6px}
+    .flash-success{background:#d4edda;color:#155724}
+    .flash-error{background:#f8d7da;color:#721c24}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="{{ url_for('index') }}">&larr; Home</a></p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <h2>Threads</h2>
+
+    {% if viewer %}
+      <form method="POST" action="{{ url_for('threads') }}" style="margin-bottom:16px">
+        <input name="title" placeholder="Start a new thread (min 3 chars)">
+        <div style="margin-top:8px"><button type="submit">Create Thread</button></div>
+      </form>
+    {% else %}
+      <p><a href="{{ url_for('login_page') }}">Log in</a> to create threads.</p>
+    {% endif %}
+
+    {% for t in threads %}
+      <div class="thread">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <a href="{{ url_for('thread_view', thread_id=t.id) }}" style="font-weight:700;font-size:16px">{{ t.title }}</a>
+            <div class="meta">
+              {% if t.creator %}
+                {% set creator = t.creator %}
+                {% set profile = creator.profile %}
+                {% set hide = profile and profile.prefers_anonymous %}
+                {% if hide and (not viewer or (viewer.id != creator.id and (viewer.role != 'Admin'))) %}
+                  Anonymous
+                {% else %}
+                  {{ creator.name }}
+                {% endif %}
+              {% else %}
+                [deleted]
+              {% endif %}
+              · {{ t.created_at.strftime('%Y-%m-%d %H:%M') }}
+            </div>
+          </div>
+          <div class="actions">
+            {% if viewer and (viewer.role=='Admin' or viewer.id == t.creator_id) %}
+              <a href="{{ url_for('thread_edit', thread_id=t.id) }}">Edit</a>
+              <form method="POST" action="{{ url_for('thread_delete', thread_id=t.id) }}" class="inline" style="display:inline" onsubmit="return confirm('Delete thread?');">
+                <button type="submit" style="background:#e33;padding:6px 8px;margin-left:8px;border-radius:6px;border:none;color:#fff;">Delete</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <p>No threads yet.</p>
+    {% endfor %}
+  </div>
+</body>
+</html>
