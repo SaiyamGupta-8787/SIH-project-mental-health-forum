@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
+    <style>
+        /* (keep your existing styling exactly as provided) */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #00c6ff, #1ed80d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #registerForm {
+            background: white;
+            padding: 40px 35px;
+            border-radius: 15px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+            width: 350px;
+            position: relative;
+            transition: transform .3s;
+        }
+
+        #registerForm:hover {
+            transform: translateY(-5px);
+        }
+
+        #registerForm h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #00060d;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        #registerForm input,
+        #registerForm select {
+            width: 100%;
+            padding: 14px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: all .3s;
+            background: white;
+        }
+
+        #registerForm input:focus,
+        #registerForm select:focus {
+            border-color: #00c6ff;
+            box-shadow: 0 0 8px rgba(0, 198, 255, .5);
+        }
+
+        #registerForm label {
+            position: absolute;
+            top: 14px;
+            left: 12px;
+            color: #aaa;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all .3s;
+            background: white;
+            padding: 0 5px;
+        }
+
+        #registerForm input:focus+label,
+        #registerForm input:not(:placeholder-shown)+label,
+        #registerForm select:not([value=""])+label {
+            top: -10px;
+            left: 8px;
+            font-size: 12px;
+            color: #00c6ff;
+            font-weight: bold;
+        }
+
+        #registerForm button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all .4s;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .2);
+        }
+
+        #registerForm button:hover {
+            background: linear-gradient(135deg, #000c09, #00080a);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, .3);
+        }
+
+        .extra-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .small {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .error {
+            color: #a00;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .success {
+            color: #0a6;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="registerForm" action="/register" method="POST" novalidate>
+        <h2>Register</h2>
+
+        <div class="form-group">
+            <input type="text" id="name" name="name" required placeholder=" " autocomplete="name">
+            <label for="name">Username</label>
+        </div>
+
+        <div class="form-group">
+            <input type="email" id="email" name="email" required placeholder=" " autocomplete="email">
+            <label for="email">Email</label>
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="password" name="password" required placeholder=" " autocomplete="new-password">
+            <label for="password">Password</label>
+            <small>Password must be atleast 8 characters long, and made of only alphanumeric characters.</small>
+        </div>
+
+        <!-- ROLE + ANONYMOUS (replace previous extra-row block) -->
+        <!-- ROLE + ANONYMOUS CTA (Student-only) -->
+        <div class="extra-row" style="flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px; align-items:center; width:100%;">
+                <div style="flex:1;">
+                    <select id="role" name="role" required>
+                        <option value="Student" selected>Student</option>
+                        <option value="Counselor">Counselor</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    <label for="role"
+                        style="position:relative; top:6px; left:6px; font-size:13px; color:#777;">Role</label>
+                </div>
+            </div>
+
+            <!-- Student-only Anonymous CTA -->
+            <div id="anon-cta"
+                style="display:none; padding:10px; border-radius:8px; background:#f7fbff; border:1px solid #e1f0ff;">
+                <div style="font-weight:600; margin-bottom:6px;">Don't want anyone to know about you? Go Anonymous!
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <input type="checkbox" id="anonymous" name="anonymous" style="transform:scale(1.05);">
+
+                </div>
+                <div id="anon-hint" class="small" style="margin-top:8px; color:#555;">If you choose anonymous, your
+                    displayed username will be a generated alias and you can still log in using this email & password.
+                </div>
+            </div>
+        </div>
+
+
+        <button type="submit" id="submitBtn">Register</button>
+
+        <div id="msg" aria-live="polite"></div>
+    </form>
+
+    <script>
+        // Elements
+        const form = document.getElementById('registerForm');
+        const msg = document.getElementById('msg');
+        const submitBtn = document.getElementById('submitBtn');
+        const roleEl = document.getElementById('role');
+        const anonCta = document.getElementById('anon-cta');
+        const anonEl = document.getElementById('anonymous');
+        const nameEl = document.getElementById('name');
+
+        function showError(text) { msg.innerHTML = `<div class="error">${text}</div>`; }
+        function showSuccess(text) { msg.innerHTML = `<div class="success">${text}</div>`; }
+
+        function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+        function validateUsername(name) { return /^[A-Za-z0-9_.-]{3,30}$/.test(name); }
+        function validatePassword(pw) { return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(pw); }
+
+        // Show/hide Anonymous CTA only for Students
+        function updateAnonVisibility() {
+            const role = roleEl.value;
+            if (role === 'Student') {
+                anonCta.style.display = 'block';
+            } else {
+                anonCta.style.display = 'none';
+                anonEl.checked = false;
+                nameEl.disabled = false;
+                nameEl.placeholder = '';
+            }
+        }
+
+        // When anonymous toggled: disable name input and show placeholder/hint
+        function updateNameState() {
+            if (anonEl.checked && roleEl.value === 'Student') {
+                nameEl.disabled = true;
+                nameEl.value = '';
+                nameEl.setAttribute('placeholder', 'You will be registered anonymously');
+            } else {
+                nameEl.disabled = false;
+                nameEl.removeAttribute('placeholder');
+            }
+        }
+
+        // initial state
+        updateAnonVisibility();
+        updateNameState();
+
+        // listeners
+        roleEl.addEventListener('change', () => {
+            updateAnonVisibility();
+            updateNameState();
+        });
+        anonEl.addEventListener('change', updateNameState);
+
+        // submit handler (same payload scheme as before)
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+            msg.innerHTML = '';
+
+            const role = roleEl.value;
+            const anonymous = anonEl.checked && role === 'Student';
+            const name = (nameEl.value || '').trim();
+            const email = form.email.value.trim();
+            const password = form.password.value;
+
+            // client validation (respect anonymous rule)
+            if (!anonymous) {
+                if (!validateUsername(name)) {
+                    return showError('Invalid username. Use 3-30 chars: letters, numbers, underscore/dot/hyphen.');
+                }
+            }
+            if (!validateEmail(email)) {
+                return showError('Invalid email address.');
+            }
+            if (!validatePassword(password)) {
+                return showError('Password must be at least 8 chars and contain at least one number.');
+            }
+            if (!['Student', 'Counselor', 'Admin'].includes(role)) {
+                return showError('Invalid role selected.');
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registering...';
+
+            const payload = { name: name, email: email, password: password, role: role, anonymous: anonymous };
+
+            try {
+                const res = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const json = await res.json();
+
+                if (res.ok) {
+                    showSuccess(json.message || 'Registered successfully. Redirecting...');
+                    setTimeout(() => window.location.href = '/login', 900);
+                } else {
+                    showError(json.error || 'Registration failed.');
+                }
+            } catch (err) {
+                showError('Network error: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register';
+            }
+
+
+            const passwordInput = document.getElementById('password');
+            passwordInput.addEventListener('input', function () {
+                const val = passwordInput.value;
+                const rules = val.length >= 8 && /[A-Za-z]/.test(val) && /\d/.test(val);
+                if (!rules) {
+                    passwordInput.style.borderColor = 'red';
+                } else {
+                    passwordInput.style.borderColor = '#00c6ff';
+                }
+            });
+});
+    </script>
+
+
+</body>
+
+</html>
