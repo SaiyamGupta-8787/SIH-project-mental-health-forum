@@ -65,15 +65,24 @@ Built for **Smart India Hackathon 2025**
 SIH-project-mental-health-forum/
 │
 ├── app.py                 # Main Flask app
+├── app_text.py
 ├── config.py              # DB configurations secret keys
 ├── models.py              # DB models/quierie 
+├── create_user.py
+├── extensions.py
+├── test_db.py
 │
 ├── templates/             # HTML (frontend)
 │   ├── index.html
-│   ├── index1.html
+│   ├── dashboard.html
+│   ├── edit_profile.html
+│   ├── flash.html
+│   ├── resource_edit.html
+│   ├── resources.html
+│   ├── thread_view.html
 │   ├── login.html
 │   ├── registration.html
-│   └── register.html
+│   └── threads.html
 │
 ├── static/                # Static assets
 │   ├── css/
@@ -81,8 +90,8 @@ SIH-project-mental-health-forum/
 │   │   └── style2.css
 │   ├── js/
 │   │   └── script.js
-│   └── img/
-│       └── logo.jpeg
+│   └── images/
+│       └── logo.svg
 │
 ├── database/              # MySQL scripts
 │   ├── schema.sql
@@ -92,6 +101,7 @@ SIH-project-mental-health-forum/
 ├── requirements.txt       # Python dependencies
 ├── .gitignore
 ├── LICENSE
+├── favicon.io
 └── README.md
 ```
 ---
